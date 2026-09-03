@@ -2,35 +2,34 @@
 #include<vector>
 using namespace std;
 
-int secondlargest(vector<int> &a , int n){
-    int largest = a[0];
-    int slargest = -1;
+int secondlargest(vector<int>& nums, int n){
+
+    if(n<2) return -1;
+    int largest = nums[0];
+    int slargest;
+
     for(int i=1;i<n;i++){
-        if(a[i]> largest){
+        if(nums[i] > largest){
             slargest = largest;
-            largest = a[i];
+            largest = nums[i];
         }
-        else if(a[i]< largest && a[i]>slargest){
-            slargest = a[i];
-        }
-    }
-    return slargest ;
-}
-
-int secondSmallest(vector<int> &a, int n){
-    int smallest = a[0];
-    int ssmallest = INT_MAX ;
-    for(int i=0;i<n;i++){
-        if(a[i] < smallest){
-            ssmallest = smallest;
-            smallest = a[i];
+        else if(nums[i] > slargest && largest != nums[i]){
+            slargest = nums[i];
         }
     }
-    return ssmallest;
+    return slargest;
 }
 
-vector<int> getSeconglargest(int n , vector<int> a){
-    int slargest = secondlargest(a , n);
-    int ssmallest = secondSmallest(a , n);
-    return {slargest , ssmallest};
+int main(){
+    int n;
+    if(cin>>n){
+        vector<int> arr(n);
+        for(int i=0;i<n;i++){
+            cin>>arr[i];
+        }
+        int ans = secondlargest(arr,n);
+
+        cout<<ans<<endl;
+    }
+    return 0;
 }
