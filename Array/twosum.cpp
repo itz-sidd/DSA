@@ -1,39 +1,40 @@
 #include<iostream>
 #include<map>
+#include<unordered_map>
 #include<vector>
 using namespace std;
 
-// string read(int n,vector<int> book,int target){
-//     map<int,int>mpp;
-//     for(int i=0;i<n;i++){
-//         int a=book[i];
-//         int more=target-a;
-//         if(mpp.find(more)!=mpp.end()){
-//             return "Yes";
-//         }
-//         mpp[a]=i;
-//     }
-//     return "No";
-// }
+vector<int> twosum(vector<int>& nums, int target){
+    int n = nums.size();
+    unordered_map<int,int>mpp;
 
-bool twoSum(vector<int>& arr, int target) {
-        // code here
-        int n = arr.size();
-        if(n<2) return false;
-        
-        int left = 0 , right = n-1;
-        
-        sort(arr.begin(),arr.end());
-        
-        while(left<right){
-            int sum  = arr[left] + arr[right];
-            if(sum == target){
-                return true;
-            }
-            else if(sum<target){
-                left++;
-            }
-            else right--;
+    for(int i=0;i<n;i++){
+        int rem = target - nums[i];
+
+        if(mpp.find(rem) != mpp.end()){
+            return {mpp[rem], i};
         }
-        return false;
+        mpp[nums[i]] = i;
     }
+    return {-1,-1};
+}
+
+int main(){
+    int n;
+    int target;
+    cout<<"enter target:"<<endl;
+    cin>>target;
+
+     if(cin>>n){
+        vector<int>nums(n);
+        for(int i=0;i<n;i++){
+            cin>>nums[i];
+            cout<<endl;
+        }
+        vector<int> ans = twosum(nums,target);
+        if (ans[0] != -1) {
+            cout << "Indices found: [" << ans[0] << ", " << ans[1] << "]" << endl;
+        }
+    }
+    return 0;
+}

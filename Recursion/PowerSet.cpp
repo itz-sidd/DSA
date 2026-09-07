@@ -1,41 +1,42 @@
-#include<iostream>
-#include<vector>
-#include<string>
+#include <iostream>
+#include <vector>
 using namespace std;
 
-// void subset(string ip , string op){
-//     if(ip.length() == 0){
-//         cout<< op <<" ";
-//         return ;
-//     }
-//     string op1 = op;
-//     string op2 = op;
-//     op2.push_back(ip[0]);
-//     ip.erase(ip.begin() + 0);
-//     subset(ip,op1);
-//     subset(ip,op2);
-//     return ;
-// }
-
-class Solution {
-public:
-    vector<vector<int>> subsets(vector<int>& nums) {
-        vector<vector<int>> ans;
-        vector<int> op;  // current subset
-        solve(nums, 0, op, ans);
-        return ans;
+void generatesets(int index, vector<int>& nums, vector<int>& path, vector<vector<int>>& ans){
+    if(index == nums.size()){
+        ans.push_back(path);
+        return;
     }
 
-    void solve(vector<int>& nums, int idx, vector<int> op, vector<vector<int>>& ans) {
-        if (idx == nums.size()) {
-            ans.push_back(op);
-            return;
+    path.push_back(nums[index]);
+    generatesets(index+1,nums,path,ans);
+
+    path.pop_back();
+    generatesets(index+1,nums,path,ans);
+
+}
+
+vector<vector<int>> powerset(vector<int> nums){
+    int n = nums.size();
+    vector<vector<int>> ans;
+    vector<int> path;
+
+    generatesets(0,nums,path,ans);
+
+    return ans;
+}
+
+int main() {
+    vector<int> nums = {1, 2, 3};
+    vector<vector<int>> result = powerset(nums);
+
+    for (const auto& subset : result) {
+        cout << "[ ";
+        for (int x : subset) {
+            cout << x << " ";
         }
-        vector<int> op1 = op;          // exclude nums[idx]
-        vector<int> op2 = op;          // include nums[idx]
-        op2.push_back(nums[idx]);
-
-        solve(nums, idx + 1, op1, ans);
-        solve(nums, idx + 1, op2, ans);
+        cout << "]\n";
     }
-};
+
+    return 0;
+}

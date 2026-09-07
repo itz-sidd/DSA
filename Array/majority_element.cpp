@@ -1,47 +1,52 @@
 #include <vector>
+#include<iostream>
 #include <map>
 
 using namespace std;
 
 
-// vector<int> majorityElement(vector<int> v) {
-//     map<int, int> mpp;
-//     int n = v.size();
+int majorityelement(vector<int>& nums){
+    int n = nums.size();
 
-//     for (int i = 0; i < n; i++) {
-//         mpp[v[i]]++;
-//     }
+    int candidate = 0;
+    int cnt = 0;
 
-//     for (auto it : mpp) {
-//         if (it.second > (n / 2)) {
-            
-//             return {it.first};
-//         }
-//     }
+    for(int i=0;i<n;i++){
+        if(cnt == 0) candidate = nums[i];
+
+        if(nums[i] == candidate) cnt++;
+        else cnt--;
+    }
+
+    int verify_cnt = 0;
+    for(int i=0;i<n;i++){
+        if(candidate == nums[i]) verify_cnt++;
+        
+    }
+    if(cnt> (n/2)) return candidate;
+    return -1;
+}
+
+int main() {
+    int n;
     
-//     // Return an empty vector if no majority element is found
-//     return {}; 
-// }
-int majorityElement(vector<int>& nums) {
-        int cnt=0;
-        int el;
-        for(int i=0;i<nums.size();i++){
-            if(cnt == 0){
-                cnt = 1;
-                el = nums[i];
-            }
-            else if(nums[i] == el){
-                cnt++;
-            }
-            else {cnt--;}
+    cout << "Enter array size: ";
+    if (cin >> n) {
+        vector<int> nums(n);
+        
+        cout << "Enter the numbers: ";
+        for (int i = 0; i < n; i++) {
+            cin >> nums[i];
         }
-        int cnt1 = 0;
-        for(int i=0;i<nums.size();i++){
-            if(nums[i] == el){
-                cnt1++;
-            }
-            if(cnt1>(nums.size()/2)){
-                return el;
-            }
+        
+        int ans = majorityelement(nums);
+        
+        if (ans != -1) {
+            cout << "Majority element: " << ans << "\n";
+        } else {
+            cout << "No majority element found.\n";
         }
-         
+    }
+    
+    return 0;
+}
